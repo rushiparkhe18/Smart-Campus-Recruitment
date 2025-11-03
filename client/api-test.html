@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Tester - Prodigy Hire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">🚀 Prodigy Hire API Tester</h1>
+        <p class="text-gray-600 mb-8">Test your backend API endpoints</p>
+
+        <!-- Server Status -->
+        <div id="serverStatus" class="mb-6 p-4 rounded-lg bg-white shadow">
+            <h2 class="font-semibold text-lg mb-2">Server Status</h2>
+            <div id="statusIndicator" class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-yellow-500 animate-pulse"></div>
+                <span>Checking connection...</span>
+            </div>
+        </div>
+
+        <!-- Available Endpoints -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">📋 Available API Endpoints</h2>
+            
+            <div class="space-y-6">
+                <!-- Auth Endpoints -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-2 text-indigo-600">🔐 Authentication</h3>
+                    <div class="space-y-2 ml-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-mono">POST</span>
+                            <code class="text-sm">/api/auth/register</code>
+                            <span class="text-gray-500 text-sm">- Register new user</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-mono">POST</span>
+                            <code class="text-sm">/api/auth/login</code>
+                            <span class="text-gray-500 text-sm">- User login</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-mono">POST</span>
+                            <code class="text-sm">/api/auth/refresh</code>
+                            <span class="text-gray-500 text-sm">- Refresh access token</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-mono">POST</span>
+                            <code class="text-sm">/api/auth/logout</code>
+                            <span class="text-gray-500 text-sm">- User logout</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Endpoints -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-2 text-purple-600">👤 Users</h3>
+                    <div class="space-y-2 ml-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm font-mono">GET</span>
+                            <code class="text-sm">/api/users/profile</code>
+                            <span class="text-gray-500 text-sm">- Get current user profile</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-sm font-mono">PUT</span>
+                            <code class="text-sm">/api/users/profile</code>
+                            <span class="text-gray-500 text-sm">- Update profile</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm font-mono">GET</span>
+                            <code class="text-sm">/api/users/:id</code>
+                            <span class="text-gray-500 text-sm">- Get user by ID</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Endpoints -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-2 text-green-600">💼 Jobs</h3>
+                    <div class="space-y-2 ml-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm font-mono">GET</span>
+                            <code class="text-sm">/api/jobs</code>
+                            <span class="text-gray-500 text-sm">- Get all jobs</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-mono">POST</span>
+                            <code class="text-sm">/api/jobs</code>
+                            <span class="text-gray-500 text-sm">- Create new job (Company only)</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm font-mono">GET</span>
+                            <code class="text-sm">/api/jobs/:id</code>
+                            <span class="text-gray-500 text-sm">- Get job details</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-sm font-mono">PUT</span>
+                            <code class="text-sm">/api/jobs/:id</code>
+                            <span class="text-gray-500 text-sm">- Update job</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Endpoints -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-2 text-orange-600">📝 Applications</h3>
+                    <div class="space-y-2 ml-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-mono">POST</span>
+                            <code class="text-sm">/api/applications</code>
+                            <span class="text-gray-500 text-sm">- Submit application</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm font-mono">GET</span>
+                            <code class="text-sm">/api/applications/my</code>
+                            <span class="text-gray-500 text-sm">- Get my applications</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-sm font-mono">PUT</span>
+                            <code class="text-sm">/api/applications/:id/status</code>
+                            <span class="text-gray-500 text-sm">- Update application status</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Endpoints -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-2 text-red-600">📊 Tests</h3>
+                    <div class="space-y-2 ml-4">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-mono">POST</span>
+                            <code class="text-sm">/api/tests</code>
+                            <span class="text-gray-500 text-sm">- Create test (Company only)</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm font-mono">GET</span>
+                            <code class="text-sm">/api/tests/:id</code>
+                            <span class="text-gray-500 text-sm">- Get test details</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-mono">POST</span>
+                            <code class="text-sm">/api/tests/:id/submit</code>
+                            <span class="text-gray-500 text-sm">- Submit test answers</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Test Section -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-bold mb-4">🧪 Quick Test</h2>
+            
+            <div class="space-y-4">
+                <button onclick="testGetJobs()" class="w-full px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                    Test GET /api/jobs (Public)
+                </button>
+                
+                <button onclick="testHealth()" class="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                    Test Server Health
+                </button>
+            </div>
+
+            <div id="testResult" class="mt-6 hidden">
+                <h3 class="font-semibold mb-2">Response:</h3>
+                <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"></pre>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-6">
+            <h3 class="font-semibold text-blue-900 mb-2">💡 Usage Instructions</h3>
+            <ul class="space-y-2 text-blue-800 text-sm">
+                <li>✅ <strong>Server is running at:</strong> http://localhost:5000</li>
+                <li>✅ <strong>Frontend pages:</strong> Open register.html or login.html to test authentication</li>
+                <li>✅ <strong>Protected routes:</strong> Need JWT token from login (automatically handled by frontend)</li>
+                <li>✅ <strong>Seed data:</strong> Run <code class="bg-blue-100 px-2 py-1 rounded">npm run seed</code> to add sample data</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+
+        // Check server status
+        async function checkServer() {
+            try {
+                const response = await fetch(`${API_URL}/jobs`);
+                const statusDiv = document.getElementById('statusIndicator');
+                
+                if (response.ok || response.status === 404) {
+                    statusDiv.innerHTML = `
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span class="text-green-700 font-semibold">✅ Server is running on http://localhost:5000</span>
+                    `;
+                } else {
+                    throw new Error('Server not responding');
+                }
+            } catch (error) {
+                const statusDiv = document.getElementById('statusIndicator');
+                statusDiv.innerHTML = `
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <span class="text-red-700 font-semibold">❌ Server is not running</span>
+                `;
+            }
+        }
+
+        // Test GET /api/jobs
+        async function testGetJobs() {
+            const resultDiv = document.getElementById('testResult');
+            const pre = resultDiv.querySelector('pre');
+            
+            resultDiv.classList.remove('hidden');
+            pre.textContent = 'Loading...';
+            
+            try {
+                const response = await fetch(`${API_URL}/jobs`);
+                const data = await response.json();
+                
+                pre.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                pre.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Test server health
+        async function testHealth() {
+            const resultDiv = document.getElementById('testResult');
+            const pre = resultDiv.querySelector('pre');
+            
+            resultDiv.classList.remove('hidden');
+            pre.textContent = 'Loading...';
+            
+            try {
+                const response = await fetch('http://localhost:5000');
+                const data = await response.json();
+                
+                pre.textContent = JSON.stringify({
+                    status: 'Server is running',
+                    response: data,
+                    timestamp: new Date().toISOString()
+                }, null, 2);
+            } catch (error) {
+                pre.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Check server status on load
+        checkServer();
+    </script>
+</body>
+</html>

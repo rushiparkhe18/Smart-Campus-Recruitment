@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile - Prodigy Hire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .sidebar-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg fixed h-full overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-building text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Prodigy Hire</h1>
+                        <p class="text-xs text-gray-500">Recruiter Portal</p>
+                    </div>
+                </div>
+                
+                <!-- Company Info -->
+                <div id="sidebarCompanyInfo" class="mb-6 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
+                    <img id="sidebarLogo" src="" alt="Company Logo" class="w-16 h-16 rounded-lg mb-3 object-cover">
+                    <h3 id="sidebarCompanyName" class="font-semibold text-gray-800">Loading...</h3>
+                    <p id="sidebarIndustry" class="text-sm text-gray-600">-</p>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="space-y-2">
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-chart-line w-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    
+                    <a href="post-job.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-plus-circle w-5"></i>
+                        <span>Post New Job</span>
+                    </a>
+                    
+                    <a href="my-jobs.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-briefcase w-5"></i>
+                        <span>My Jobs</span>
+                        <span id="sidebar-jobs-badge" class="ml-auto bg-indigo-100 text-indigo-600 text-xs px-2 py-1 rounded-full">0</span>
+                    </a>
+                    
+                    <a href="applicants.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-users w-5"></i>
+                        <span>Applicants</span>
+                        <span id="sidebar-apps-badge" class="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">0</span>
+                    </a>
+                    
+                    <a href="create-test.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-file-alt w-5"></i>
+                        <span>Create Test</span>
+                    </a>
+                    
+
+                    <a href="profile.html" class="sidebar-active flex items-center gap-3 px-4 py-3 rounded-lg transition">
+                        <i class="fas fa-building w-5"></i>
+                        <span>Company Profile</span>
+                    </a>
+                    
+                    <a href="#" onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-red-600 rounded-lg hover:bg-red-50 transition mt-8">
+                        <i class="fas fa-sign-out-alt w-5"></i>
+                        <span>Logout</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Company Profile</h1>
+                <p class="text-gray-600">Manage your company information and settings</p>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <!-- Cover Image -->
+                <div class="h-32 gradient-bg relative">
+                    <button onclick="toggleEditMode()" id="editBtn" class="absolute top-4 right-4 px-6 py-2 bg-white text-indigo-600 rounded-lg hover:bg-gray-50 transition font-semibold">
+                        <i class="fas fa-edit mr-2"></i>Edit Profile
+                    </button>
+                </div>
+
+                <!-- Profile Content -->
+                <div class="p-8">
+                    <!-- Logo Section -->
+                    <div class="flex items-start gap-6 mb-8 -mt-16">
+                        <div class="relative">
+                            <img id="profileLogo" src="" alt="Company Logo" class="w-32 h-32 rounded-xl border-4 border-white shadow-lg object-cover bg-white">
+                            <button id="logoUploadBtn" class="hidden absolute bottom-0 right-0 w-10 h-10 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition">
+                                <i class="fas fa-camera"></i>
+                                <input type="file" id="logoInput" accept="image/*" class="hidden">
+                            </button>
+                        </div>
+                        <div class="mt-12">
+                            <h2 id="displayCompanyName" class="text-2xl font-bold text-gray-800 mb-1">-</h2>
+                            <p id="displayIndustry" class="text-gray-600 mb-2">-</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-500">
+                                <span id="displayLocation"><i class="fas fa-map-marker-alt mr-1"></i>-</span>
+                                <span id="displaySize"><i class="fas fa-users mr-1"></i>-</span>
+                                <span id="displayFounded"><i class="fas fa-calendar mr-1"></i>-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit Form (Hidden by default) -->
+                    <form id="profileForm" class="hidden space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Company Name -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Company Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="companyName" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+
+                            <!-- Industry -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Industry <span class="text-red-500">*</span>
+                                </label>
+                                <select id="industry" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                    <option value="">Select Industry</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Manufacturing">Manufacturing</option>
+                                    <option value="E-commerce">E-commerce</option>
+                                    <option value="Consulting">Consulting</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <!-- Website -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Website URL
+                                </label>
+                                <input type="url" id="website" placeholder="https://example.com"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+
+                            <!-- Location -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Location <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="location" required placeholder="City, Country"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+
+                            <!-- Company Size -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Company Size
+                                </label>
+                                <select id="size"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                    <option value="">Select Size</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-500">201-500 employees</option>
+                                    <option value="500+">500+ employees</option>
+                                </select>
+                            </div>
+
+                            <!-- Founded Year -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Founded Year
+                                </label>
+                                <input type="number" id="founded" min="1800" max="2025" placeholder="2020"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                        </div>
+
+                        <!-- About Company -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                About Company
+                            </label>
+                            <textarea id="about" rows="5" placeholder="Tell us about your company..."
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-4 pt-4">
+                            <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+                                <i class="fas fa-save mr-2"></i>Save Changes
+                            </button>
+                            <button type="button" onclick="cancelEdit()" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-semibold">
+                                <i class="fas fa-times mr-2"></i>Cancel
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Display Info (Visible by default) -->
+                    <div id="displayInfo" class="space-y-6">
+                        <!-- About Section -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">About</h3>
+                            <p id="displayAbout" class="text-gray-600 leading-relaxed">-</p>
+                        </div>
+
+                        <!-- Website Link -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Website</h3>
+                            <a id="displayWebsite" href="#" target="_blank" class="text-indigo-600 hover:underline">-</a>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t">
+                            <div class="text-center p-4 bg-indigo-50 rounded-lg">
+                                <div class="text-3xl font-bold text-indigo-600" id="stats-active-jobs">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Active Jobs</div>
+                            </div>
+                            <div class="text-center p-4 bg-purple-50 rounded-lg">
+                                <div class="text-3xl font-bold text-purple-600" id="stats-total-apps">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Total Applications</div>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <div class="text-3xl font-bold text-green-600" id="stats-hired">0</div>
+                                <div class="text-sm text-gray-600 mt-1">Students Hired</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let currentProfile = null;
+
+        // Load profile on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+        });
+
+        // Load user profile
+        async function loadProfile() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    currentProfile = data.data;
+                    displayProfile(currentProfile);
+                    loadProfileStats(); // Load stats after profile is loaded
+                } else {
+                    showToast(data.message || 'Failed to load profile', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showToast('Network error. Please try again.', 'error');
+            }
+        }
+
+        // Load profile stats
+        async function loadProfileStats() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                
+                // Fetch jobs
+                const jobsResponse = await fetch(`${API_URL}/jobs/company/my-jobs`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const jobsData = await jobsResponse.json();
+                const jobs = jobsData.data || [];
+                const activeJobs = jobs.filter(j => j.isActive && new Date(j.deadline) > new Date()).length;
+                
+                // Fetch applications
+                const appsResponse = await fetch(`${API_URL}/applications/company/all`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const appsData = await appsResponse.json();
+                const applications = appsData.data || [];
+                const selectedCount = applications.filter(a => a.status === 'Selected').length;
+                
+                // Update stats in profile section
+                document.getElementById('stats-active-jobs').textContent = activeJobs;
+                document.getElementById('stats-total-apps').textContent = applications.length;
+                document.getElementById('stats-hired').textContent = selectedCount;
+                
+                // Update sidebar badges
+                const jobsBadge = document.getElementById('sidebar-jobs-badge');
+                const appsBadge = document.getElementById('sidebar-apps-badge');
+                if (jobsBadge) jobsBadge.textContent = jobs.length;
+                if (appsBadge) appsBadge.textContent = applications.length;
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Display profile information
+        function displayProfile(profile) {
+            const user = profile.user || profile;
+            const company = user.companyProfile || {};
+            const companyName = company.companyName || user.name || 'Company Name';
+            
+            // Generate logo URL
+            let logoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(companyName)}&size=200&background=667eea&color=fff`;
+            
+            // Try to get logo from website domain
+            if (company.website) {
+                try {
+                    const domain = new URL(company.website).hostname;
+                    logoUrl = `https://logo.clearbit.com/${domain}`;
+                } catch (e) {
+                    console.log('Invalid website URL, using default logo');
+                }
+            }
+
+            // Update sidebar
+            document.getElementById('sidebarLogo').src = logoUrl;
+            document.getElementById('sidebarLogo').onerror = function() {
+                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(companyName)}&size=200&background=667eea&color=fff`;
+            };
+            document.getElementById('sidebarCompanyName').textContent = companyName;
+            document.getElementById('sidebarIndustry').textContent = company.industry || 'Industry';
+
+            // Update main profile display
+            document.getElementById('profileLogo').src = logoUrl;
+            document.getElementById('profileLogo').onerror = function() {
+                this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(companyName)}&size=200&background=667eea&color=fff`;
+            };
+            document.getElementById('displayCompanyName').textContent = companyName;
+            document.getElementById('displayIndustry').textContent = company.industry || '-';
+            document.getElementById('displayLocation').innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i>${company.location || '-'}`;
+            document.getElementById('displaySize').innerHTML = `<i class="fas fa-users mr-1"></i>${company.size || '-'}`;
+            document.getElementById('displayFounded').innerHTML = `<i class="fas fa-calendar mr-1"></i>Founded ${company.founded || '-'}`;
+            document.getElementById('displayAbout').textContent = company.about || 'No description provided yet.';
+            
+            const websiteLink = document.getElementById('displayWebsite');
+            if (company.website) {
+                websiteLink.href = company.website;
+                websiteLink.textContent = company.website;
+            } else {
+                websiteLink.textContent = 'Not provided';
+                websiteLink.removeAttribute('href');
+            }
+
+            // Update form fields
+            document.getElementById('companyName').value = companyName;
+            document.getElementById('industry').value = company.industry || '';
+            document.getElementById('website').value = company.website || '';
+            document.getElementById('location').value = company.location || '';
+            document.getElementById('size').value = company.size || '';
+            document.getElementById('founded').value = company.founded || '';
+            document.getElementById('about').value = company.about || '';
+        }
+
+        // Toggle edit mode
+        function toggleEditMode() {
+            document.getElementById('displayInfo').classList.add('hidden');
+            document.getElementById('profileForm').classList.remove('hidden');
+            document.getElementById('logoUploadBtn').classList.remove('hidden');
+            document.getElementById('editBtn').classList.add('hidden');
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            document.getElementById('displayInfo').classList.remove('hidden');
+            document.getElementById('profileForm').classList.add('hidden');
+            document.getElementById('logoUploadBtn').classList.add('hidden');
+            document.getElementById('editBtn').classList.remove('hidden');
+            displayProfile(currentProfile); // Reset form
+        }
+
+        // Handle form submission
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const updatedProfile = {
+                companyProfile: {
+                    companyName: document.getElementById('companyName').value,
+                    industry: document.getElementById('industry').value,
+                    website: document.getElementById('website').value,
+                    location: document.getElementById('location').value,
+                    size: document.getElementById('size').value,
+                    founded: parseInt(document.getElementById('founded').value) || null,
+                    about: document.getElementById('about').value
+                }
+            };
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(updatedProfile)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showToast('Profile updated successfully!', 'success');
+                    
+                    // Update current profile with the latest data
+                    currentProfile = data.data.user || data.data;
+                    
+                    // Display updated profile
+                    displayProfile(currentProfile);
+                    cancelEdit();
+                    
+                    // Reload the page to ensure all data is fresh
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    showToast(data.message || 'Failed to update profile', 'error');
+                }
+            } catch (error) {
+                console.error('Update error:', error);
+                showToast('Network error. Please try again.', 'error');
+            }
+        });
+
+        // Logout function
+        function logout() {
+            localStorage.clear();
+            window.location.href = '../login.html';
+        }
+
+        // Toast notification
+        function showToast(message, type = 'error') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white z-50 ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            }`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

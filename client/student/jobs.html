@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Jobs - Prodigy Hire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .sidebar-active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .job-card { transition: all 0.3s ease; }
+        .job-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg fixed h-full overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Prodigy Hire</h1>
+                        <p class="text-xs text-gray-500">Student Portal</p>
+                    </div>
+                </div>
+                
+                <div id="userInfo" class="mb-6 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
+                    <div class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center text-white text-2xl font-bold mb-3">
+                        <span id="userInitials">-</span>
+                    </div>
+                    <h3 id="userName" class="font-semibold text-gray-800">Loading...</h3>
+                    <p id="userEmail" class="text-sm text-gray-600">-</p>
+                </div>
+                
+                <nav class="space-y-2">
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-home w-5"></i><span>Dashboard</span>
+                    </a>
+                    <a href="jobs.html" class="sidebar-active flex items-center gap-3 px-4 py-3 rounded-lg transition">
+                        <i class="fas fa-briefcase w-5"></i><span>Browse Jobs</span>
+                    </a>
+                    <a href="applications.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-file-alt w-5"></i><span>My Applications</span>
+                    </a>
+                    <a href="tests.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-clipboard-check w-5"></i><span>Tests</span>
+                    </a>
+                    <a href="code-playground.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-code w-5"></i><span>Code Playground</span>
+                    </a>
+                    <a href="profile.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-user w-5"></i><span>Profile</span>
+                    </a>
+                    <a href="#" onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-red-600 rounded-lg hover:bg-red-50 transition mt-8">
+                        <i class="fas fa-sign-out-alt w-5"></i><span>Logout</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Browse Jobs</h1>
+                <p class="text-gray-600">Find your dream job opportunity</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <input type="text" id="searchInput" placeholder="Search jobs..." onkeyup="applyFilters()"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <select id="jobTypeFilter" onchange="applyFilters()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <option value="">All Types</option>
+                            <option value="Full-Time">Full-Time</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Part-Time">Part-Time</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" id="locationFilter" placeholder="Location" onkeyup="applyFilters()"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <button onclick="clearFilters()" class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+                            <i class="fas fa-times mr-2"></i>Clear Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jobs Grid -->
+            <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Loading state -->
+                <div class="col-span-full text-center py-12">
+                    <i class="fas fa-spinner fa-spin text-4xl text-indigo-600"></i>
+                    <p class="text-gray-600 mt-4">Loading jobs...</p>
+                </div>
+            </div>
+
+            <!-- Empty state -->
+            <div id="emptyState" class="hidden text-center py-12">
+                <i class="fas fa-briefcase text-6xl text-gray-300 mb-4"></i>
+                <p class="text-gray-600 text-lg">No jobs found matching your criteria</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Job Details Modal -->
+    <div id="jobModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-2">Job Title</h2>
+                        <p id="modalCompany" class="text-gray-600">Company Name</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex flex-wrap gap-4 text-sm">
+                        <span id="modalType" class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full"></span>
+                        <span id="modalLocation"><i class="fas fa-map-marker-alt mr-1"></i></span>
+                        <span id="modalSalary"><i class="fas fa-money-bill-wave mr-1"></i></span>
+                        <span id="modalDeadline"><i class="fas fa-calendar mr-1"></i></span>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Description</h3>
+                        <p id="modalDescription" class="text-gray-600"></p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Required Skills</h3>
+                        <div id="modalSkills" class="flex flex-wrap gap-2"></div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Eligibility</h3>
+                        <div id="modalEligibility" class="text-gray-600"></div>
+                    </div>
+
+                    <div class="flex gap-4 pt-4 border-t">
+                        <button onclick="applyToJob()" id="applyBtn" class="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold">
+                            <i class="fas fa-paper-plane mr-2"></i>Apply Now
+                        </button>
+                        <button onclick="toggleSaveJob()" id="saveBtn" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-semibold">
+                            <i class="far fa-bookmark mr-2"></i>Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let allJobs = [];
+        let currentJob = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            loadJobs();
+        });
+
+        async function loadProfile() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    const user = data.data.user || data.data;
+                    const userName = user.name || 'Student';
+                    const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                    document.getElementById('userInitials').textContent = initials;
+                    document.getElementById('userName').textContent = userName;
+                    document.getElementById('userEmail').textContent = user.email || '';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        async function loadJobs() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/jobs`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    allJobs = data.data.jobs || data.data || [];
+                    displayJobs(allJobs);
+                } else {
+                    document.getElementById('jobsContainer').innerHTML = '<p class="col-span-full text-center text-red-600">Failed to load jobs</p>';
+                }
+            } catch (error) {
+                console.error('Error loading jobs:', error);
+                document.getElementById('jobsContainer').innerHTML = '<p class="col-span-full text-center text-red-600">Network error: ' + error.message + '</p>';
+            }
+        }
+
+        function displayJobs(jobs) {
+            const container = document.getElementById('jobsContainer');
+            
+            if (jobs.length === 0) {
+                container.innerHTML = '';
+                document.getElementById('emptyState').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('emptyState').classList.add('hidden');
+            
+            container.innerHTML = jobs.map(job => {
+                const deadline = new Date(job.deadline).toLocaleDateString();
+                const company = job.company?.companyProfile?.companyName || 'Company';
+                const logo = job.company?.companyProfile?.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(company)}&size=100&background=667eea&color=fff`;
+                
+                return `
+                    <div class="job-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 cursor-pointer" onclick="openJobModal('${job._id}')">
+                        <div class="flex items-start gap-4 mb-4">
+                            <img src="${logo}" alt="${company}" class="w-12 h-12 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-lg text-gray-800 mb-1">${job.title}</h3>
+                                <p class="text-gray-600 text-sm">${company}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 text-sm text-gray-600 mb-4">
+                            <div><i class="fas fa-briefcase w-5"></i> ${job.jobType}</div>
+                            <div><i class="fas fa-map-marker-alt w-5"></i> ${job.location}</div>
+                            <div><i class="fas fa-calendar w-5"></i> Deadline: ${deadline}</div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${job.skills.slice(0, 3).map(skill => `<span class="px-2 py-1 bg-indigo-50 text-indigo-600 rounded text-xs">${skill}</span>`).join('')}
+                            ${job.skills.length > 3 ? `<span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">+${job.skills.length - 3} more</span>` : ''}
+                        </div>
+                        
+                        <button onclick="openJobModal('${job._id}'); event.stopPropagation();" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            View Details
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const jobType = document.getElementById('jobTypeFilter').value;
+            const location = document.getElementById('locationFilter').value.toLowerCase();
+
+            const filtered = allJobs.filter(job => {
+                const matchesSearch = job.title.toLowerCase().includes(search) || 
+                                    job.description.toLowerCase().includes(search) ||
+                                    (job.company?.companyProfile?.companyName || '').toLowerCase().includes(search);
+                const matchesType = !jobType || job.jobType === jobType;
+                const matchesLocation = !location || job.location.toLowerCase().includes(location);
+                
+                return matchesSearch && matchesType && matchesLocation;
+            });
+
+            displayJobs(filtered);
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('jobTypeFilter').value = '';
+            document.getElementById('locationFilter').value = '';
+            displayJobs(allJobs);
+        }
+
+        function openJobModal(jobId) {
+            currentJob = allJobs.find(j => j._id === jobId);
+            if (!currentJob) return;
+
+            const company = currentJob.company?.companyProfile?.companyName || 'Company';
+            const salary = currentJob.salary?.min && currentJob.salary?.max 
+                ? `₹${currentJob.salary.min.toLocaleString()} - ₹${currentJob.salary.max.toLocaleString()}`
+                : 'Not disclosed';
+
+            document.getElementById('modalTitle').textContent = currentJob.title;
+            document.getElementById('modalCompany').textContent = company;
+            document.getElementById('modalType').textContent = currentJob.jobType;
+            document.getElementById('modalLocation').innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i>${currentJob.location}`;
+            document.getElementById('modalSalary').innerHTML = `<i class="fas fa-money-bill-wave mr-1"></i>${salary}`;
+            document.getElementById('modalDeadline').innerHTML = `<i class="fas fa-calendar mr-1"></i>Deadline: ${new Date(currentJob.deadline).toLocaleDateString()}`;
+            document.getElementById('modalDescription').textContent = currentJob.description;
+            document.getElementById('modalSkills').innerHTML = currentJob.skills.map(s => 
+                `<span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">${s}</span>`
+            ).join('');
+
+            const eligibility = currentJob.eligibility || {};
+            document.getElementById('modalEligibility').innerHTML = `
+                <p>Minimum CGPA: ${eligibility.minCGPA || 'No requirement'}</p>
+                ${eligibility.departments?.length ? `<p>Departments: ${eligibility.departments.join(', ')}</p>` : ''}
+                ${eligibility.batches?.length ? `<p>Batches: ${eligibility.batches.join(', ')}</p>` : ''}
+            `;
+
+            document.getElementById('jobModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('jobModal').classList.add('hidden');
+            currentJob = null;
+        }
+
+        async function applyToJob() {
+            if (!currentJob) return;
+
+            try {
+                const coverLetter = document.getElementById('coverLetter')?.value || '';
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/jobs/${currentJob._id}/apply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ coverLetter })
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showToast('Application submitted successfully!', 'success');
+                    closeModal();
+                    loadJobs(); // Reload jobs to update applied status
+                } else {
+                    showToast(data.message || 'Failed to apply', 'error');
+                }
+            } catch (error) {
+                console.error('Apply error:', error);
+                showToast('Network error: ' + error.message, 'error');
+            }
+        }
+
+        async function toggleSaveJob() {
+            closeModal();
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '../login.html';
+        }
+
+        function showToast(message, type = 'error') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

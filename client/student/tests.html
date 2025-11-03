@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aptitude Tests - Prodigy Hire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .sidebar-active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg fixed h-full overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Prodigy Hire</h1>
+                        <p class="text-xs text-gray-500">Student Portal</p>
+                    </div>
+                </div>
+                
+                <div id="userInfo" class="mb-6 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
+                    <div class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center text-white text-2xl font-bold mb-3">
+                        <span id="userInitials">-</span>
+                    </div>
+                    <h3 id="userName" class="font-semibold text-gray-800">Loading...</h3>
+                    <p id="userEmail" class="text-sm text-gray-600">-</p>
+                </div>
+                
+                <nav class="space-y-2">
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-home w-5"></i><span>Dashboard</span>
+                    </a>
+                    <a href="jobs.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-briefcase w-5"></i><span>Browse Jobs</span>
+                    </a>
+                    <a href="applications.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-file-alt w-5"></i><span>My Applications</span>
+                    </a>
+                    <a href="tests.html" class="sidebar-active flex items-center gap-3 px-4 py-3 rounded-lg transition">
+                        <i class="fas fa-clipboard-check w-5"></i><span>Tests</span>
+                    </a>
+                    <a href="code-playground.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-code w-5"></i><span>Code Playground</span>
+                    </a>
+                    <a href="profile.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-user w-5"></i><span>Profile</span>
+                    </a>
+                    <a href="#" onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-red-600 rounded-lg hover:bg-red-50 transition mt-8">
+                        <i class="fas fa-sign-out-alt w-5"></i><span>Logout</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Aptitude Tests</h1>
+                <p class="text-gray-600">Take tests and track your performance</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm mb-1">Total Tests</p>
+                            <p class="text-3xl font-bold text-gray-800">12</p>
+                        </div>
+                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clipboard-list text-indigo-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm mb-1">Completed</p>
+                            <p class="text-3xl font-bold text-green-600">7</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm mb-1">Pending</p>
+                            <p class="text-3xl font-bold text-orange-600">5</p>
+                        </div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clock text-orange-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm mb-1">Avg Score</p>
+                            <p class="text-3xl font-bold text-purple-600">78%</p>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-chart-line text-purple-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="mb-6">
+                <div class="border-b border-gray-200">
+                    <nav class="flex gap-8">
+                        <button onclick="switchTab('pending')" id="pendingTab" class="tab-btn pb-4 px-1 border-b-2 border-indigo-600 text-indigo-600 font-semibold">
+                            Pending Tests
+                        </button>
+                        <button onclick="switchTab('completed')" id="completedTab" class="tab-btn pb-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                            Completed Tests
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Pending Tests -->
+            <div id="pendingTests" class="space-y-4">
+                <!-- Tests will be loaded dynamically -->
+            </div>
+
+            <!-- Completed Tests -->
+            <div id="completedTests" class="hidden space-y-4">
+                <!-- Completed tests will be loaded dynamically -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let allTests = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            loadTests();
+        });
+
+        async function loadProfile() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    const user = data.data.user || data.data;
+                    const userName = user.name || 'Student';
+                    const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                    document.getElementById('userInitials').textContent = initials;
+                    document.getElementById('userName').textContent = userName;
+                    document.getElementById('userEmail').textContent = user.email || '';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        async function loadTests() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/aptitude/available`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // API returns { data: { tests: [...] } }
+                    allTests = data.data.tests || data.data || [];
+                    console.log('Loaded tests:', allTests);
+                    displayTests();
+                    updateStats();
+                } else {
+                    console.error('Failed response:', data);
+                    showToast(data.message || 'Failed to load tests', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading tests:', error);
+                // Still show empty state, don't show error toast for empty tests
+                allTests = [];
+                displayTests();
+                updateStats();
+            }
+        }
+
+        function displayTests() {
+            const pendingContainer = document.getElementById('pendingTests');
+            const completedContainer = document.getElementById('completedTests');
+            
+            // All tests from available endpoint are pending (not yet taken)
+            const pending = allTests;
+            
+            // Display pending tests
+            if (pending.length === 0) {
+                pendingContainer.innerHTML = `
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+                        <i class="fas fa-clipboard-list text-gray-300 text-5xl mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-600 mb-2">No Pending Tests</h3>
+                        <p class="text-gray-500">You don't have any pending tests at the moment.</p>
+                    </div>
+                `;
+            } else {
+                pendingContainer.innerHTML = pending.map(testData => createTestCard(testData, 'pending')).join('');
+            }
+            
+            // Completed tests - would need separate endpoint
+            completedContainer.innerHTML = `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+                    <i class="fas fa-check-circle text-gray-300 text-5xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-600 mb-2">No Completed Tests</h3>
+                    <p class="text-gray-500">Completed test results will appear here.</p>
+                </div>
+            `;
+        }
+
+        function createTestCard(testData, status) {
+            // testData structure: { test, job, application }
+            const test = testData.test || testData;
+            const job = testData.job || {};
+            const isPending = status === 'pending';
+            
+            return `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">${test.title || 'Aptitude Test'}</h3>
+                            <p class="text-gray-600 text-sm mb-3">${test.description || 'Complete this test for your application'}</p>
+                            
+                            <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+                                <span><i class="fas fa-briefcase mr-1 text-indigo-600"></i>${job.title || 'Job Position'}</span>
+                                <span><i class="fas fa-question-circle mr-1 text-indigo-600"></i>${test.questions?.length || 0} Questions</span>
+                                <span><i class="fas fa-clock mr-1 text-indigo-600"></i>${test.duration || 60} Minutes</span>
+                                <span><i class="fas fa-star mr-1 text-indigo-600"></i>Passing: ${test.passingScore || 60}%</span>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold">
+                            Pending
+                        </span>
+                    </div>
+                    
+                    <button onclick="startTest('${test._id}')" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+                        <i class="fas fa-play mr-2"></i>Start Test
+                    </button>
+                </div>
+            `;
+        }
+
+        function updateStats() {
+            const total = allTests.length;
+            const pending = total;  // All available tests are pending
+            const completed = 0;     // Would need separate API call
+            
+            // Update stat cards
+            document.querySelector('.text-3xl.font-bold.text-indigo-600').textContent = total;
+            const greenElements = document.querySelectorAll('.text-3xl.font-bold.text-green-600');
+            if (greenElements[0]) greenElements[0].textContent = completed;
+            const orangeElements = document.querySelectorAll('.text-3xl.font-bold.text-orange-600');
+            if (orangeElements[0]) orangeElements[0].textContent = pending;
+        }
+
+        function switchTab(tab) {
+            // Update tab buttons
+            document.getElementById('pendingTab').className = 'tab-btn pb-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700';
+            document.getElementById('completedTab').className = 'tab-btn pb-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700';
+            
+            if (tab === 'pending') {
+                document.getElementById('pendingTab').className = 'tab-btn pb-4 px-1 border-b-2 border-indigo-600 text-indigo-600 font-semibold';
+                document.getElementById('pendingTests').classList.remove('hidden');
+                document.getElementById('completedTests').classList.add('hidden');
+            } else {
+                document.getElementById('completedTab').className = 'tab-btn pb-4 px-1 border-b-2 border-indigo-600 text-indigo-600 font-semibold';
+                document.getElementById('pendingTests').classList.add('hidden');
+                document.getElementById('completedTests').classList.remove('hidden');
+            }
+        }
+
+        function startTest(testId) {
+            showToast('Loading test...', 'success');
+            // Navigate to test-taking interface
+            window.location.href = `take-test.html?testId=${testId}`;
+        }
+
+        function viewResults(testId) {
+            showToast('Loading results...', 'success');
+            // In production, navigate to results page or show modal with detailed results
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '../login.html';
+        }
+
+        function showToast(message, type = 'error') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

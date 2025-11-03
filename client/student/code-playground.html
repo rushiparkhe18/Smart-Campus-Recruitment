@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Playground - Prodigy Hire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .sidebar-active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .CodeMirror { height: calc(100vh - 300px); font-size: 14px; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg fixed h-full overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Prodigy Hire</h1>
+                        <p class="text-xs text-gray-500">Student Portal</p>
+                    </div>
+                </div>
+                
+                <div id="userInfo" class="mb-6 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
+                    <div class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center text-white text-2xl font-bold mb-3">
+                        <span id="userInitials">-</span>
+                    </div>
+                    <h3 id="userName" class="font-semibold text-gray-800">Loading...</h3>
+                    <p id="userEmail" class="text-sm text-gray-600">-</p>
+                </div>
+                
+                <nav class="space-y-2">
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-home w-5"></i><span>Dashboard</span>
+                    </a>
+                    <a href="jobs.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-briefcase w-5"></i><span>Browse Jobs</span>
+                    </a>
+                    <a href="applications.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-file-alt w-5"></i><span>My Applications</span>
+                    </a>
+                    <a href="tests.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-clipboard-check w-5"></i><span>Tests</span>
+                    </a>
+                    <a href="code-playground.html" class="sidebar-active flex items-center gap-3 px-4 py-3 rounded-lg transition">
+                        <i class="fas fa-code w-5"></i><span>Code Playground</span>
+                    </a>
+                    <a href="profile.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-user w-5"></i><span>Profile</span>
+                    </a>
+                    <a href="#" onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-red-600 rounded-lg hover:bg-red-50 transition mt-8">
+                        <i class="fas fa-sign-out-alt w-5"></i><span>Logout</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Code Playground</h1>
+                <p class="text-gray-600">Practice coding and test your solutions</p>
+            </div>
+
+            <!-- Language Notice -->
+            <div id="languageNotice" class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-4 hidden">
+                <div class="flex items-start gap-3">
+                    <i class="fas fa-info-circle text-yellow-600 mt-1"></i>
+                    <div>
+                        <h3 class="font-semibold text-yellow-800 mb-1">Browser Execution Only</h3>
+                        <p class="text-sm text-yellow-700">This playground currently supports JavaScript execution only. Python, Java, and C++ require backend server integration for security and resource management.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex gap-4">
+                        <select id="languageSelect" onchange="changeLanguage()" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <option value="javascript">JavaScript ✓ (Executable)</option>
+                            <option value="python">Python (View Only)</option>
+                            <option value="java">Java (View Only)</option>
+                            <option value="cpp">C++ (View Only)</option>
+                        </select>
+                        
+                        <select id="themeSelect" onchange="changeTheme()" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <option value="monokai">Monokai</option>
+                            <option value="default">Default</option>
+                        </select>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="clearCode()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
+                            <i class="fas fa-trash mr-2"></i>Clear
+                        </button>
+                        <button id="runButton" onclick="runCode()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+                            <i class="fas fa-play mr-2"></i>Run Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Editor -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                <textarea id="codeEditor"></textarea>
+            </div>
+
+            <!-- Output -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 class="font-semibold text-lg mb-4">Output</h3>
+                <div id="output" class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm min-h-[100px] whitespace-pre-wrap">
+                    Ready to execute code...
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let editor;
+
+        const codeTemplates = {
+            javascript: `// JavaScript Code
+function greet(name) {
+    return \`Hello, \${name}!\`;
+}
+
+console.log(greet('World'));
+console.log('Ready to code!');`,
+            
+            python: `# Python Code
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet('World'))
+print('Ready to code!')`,
+            
+            java: `// Java Code
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+        System.out.println("Ready to code!");
+    }
+}`,
+            
+            cpp: `// C++ Code
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, World!" << endl;
+    cout << "Ready to code!" << endl;
+    return 0;
+}`
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            initializeEditor();
+        });
+
+        async function loadProfile() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    const user = data.data.user || data.data;
+                    const userName = user.name || 'Student';
+                    const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                    document.getElementById('userInitials').textContent = initials;
+                    document.getElementById('userName').textContent = userName;
+                    document.getElementById('userEmail').textContent = user.email || '';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        function initializeEditor() {
+            editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+                mode: 'javascript',
+                theme: 'monokai',
+                lineNumbers: true,
+                autoCloseBrackets: true,
+                matchBrackets: true,
+                indentUnit: 4,
+                tabSize: 4,
+                indentWithTabs: false
+            });
+            
+            editor.setValue(codeTemplates.javascript);
+        }
+
+        function changeLanguage() {
+            const language = document.getElementById('languageSelect').value;
+            const notice = document.getElementById('languageNotice');
+            const runButton = document.getElementById('runButton');
+            
+            const modes = {
+                javascript: 'javascript',
+                python: 'python',
+                java: 'text/x-java',
+                cpp: 'text/x-c++src'
+            };
+            
+            editor.setOption('mode', modes[language]);
+            editor.setValue(codeTemplates[language]);
+            
+            // Show notice for non-JavaScript languages
+            if (language !== 'javascript') {
+                notice.classList.remove('hidden');
+                runButton.classList.add('opacity-50', 'cursor-not-allowed');
+                runButton.disabled = true;
+            } else {
+                notice.classList.add('hidden');
+                runButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                runButton.disabled = false;
+            }
+        }
+
+        function changeTheme() {
+            const theme = document.getElementById('themeSelect').value;
+            editor.setOption('theme', theme);
+        }
+
+        function clearCode() {
+            const language = document.getElementById('languageSelect').value;
+            editor.setValue(codeTemplates[language]);
+        }
+
+        async function runCode() {
+            const code = editor.getValue();
+            const language = document.getElementById('languageSelect').value;
+            const output = document.getElementById('output');
+            
+            // Only allow JavaScript execution
+            if (language !== 'javascript') {
+                output.textContent = `⚠️ ${language.toUpperCase()} execution is not available in browser mode.\n\nNote: For security and resource management, Python, Java, and C++ require backend server integration. Currently, only JavaScript can be executed directly in the browser.\n\nYour code is saved in the editor for review.`;
+                output.className = 'bg-gray-900 text-yellow-400 p-4 rounded-lg font-mono text-sm min-h-[100px] whitespace-pre-wrap';
+                return;
+            }
+            
+            output.textContent = 'Executing code...\n';
+            output.className = 'bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm min-h-[100px] whitespace-pre-wrap';
+            
+            try {
+                // Capture console.log
+                const logs = [];
+                const originalLog = console.log;
+                console.log = (...args) => {
+                    logs.push(args.map(arg => 
+                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                    ).join(' '));
+                };
+                
+                // Execute code
+                eval(code);
+                
+                // Restore console.log
+                console.log = originalLog;
+                
+                output.textContent = logs.length > 0 ? logs.join('\n') : '✓ Code executed successfully (no output)';
+            } catch (error) {
+                output.textContent = `❌ Error: ${error.message}\n\nStack trace:\n${error.stack}`;
+                output.className = 'bg-gray-900 text-red-400 p-4 rounded-lg font-mono text-sm min-h-[100px] whitespace-pre-wrap';
+                setTimeout(() => {
+                    output.className = 'bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm min-h-[100px] whitespace-pre-wrap';
+                }, 3000);
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '../login.html';
+        }
+    </script>
+</body>
+</html>

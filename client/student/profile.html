@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Prodigy Hire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+        
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .sidebar-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg fixed h-full overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Prodigy Hire</h1>
+                        <p class="text-xs text-gray-500">Student Portal</p>
+                    </div>
+                </div>
+                
+                <div id="userInfo" class="mb-6 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
+                    <div class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center text-white text-2xl font-bold mb-3">
+                        <span id="userInitials">-</span>
+                    </div>
+                    <h3 id="userName" class="font-semibold text-gray-800">Loading...</h3>
+                    <p id="userEmail" class="text-sm text-gray-600">-</p>
+                </div>
+                
+                <nav class="space-y-2">
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-home w-5"></i><span>Dashboard</span>
+                    </a>
+                    <a href="jobs.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-briefcase w-5"></i><span>Browse Jobs</span>
+                    </a>
+                    <a href="applications.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-file-alt w-5"></i><span>My Applications</span>
+                    </a>
+                    <a href="tests.html" class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-clipboard-check w-5"></i><span>Tests</span>
+                    </a>
+                    <a href="profile.html" class="sidebar-active flex items-center gap-3 px-4 py-3 rounded-lg transition">
+                        <i class="fas fa-user w-5"></i><span>Profile</span>
+                    </a>
+                    <a href="#" onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-red-600 rounded-lg hover:bg-red-50 transition mt-8">
+                        <i class="fas fa-sign-out-alt w-5"></i><span>Logout</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">My Profile</h1>
+                <p class="text-gray-600">Manage your personal information and academic details</p>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Personal Information</h2>
+                    <button onclick="toggleEdit('personal')" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                        <i class="fas fa-edit mr-2"></i>Edit
+                    </button>
+                </div>
+
+                <div id="personalDisplay" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div><span class="text-gray-500">Name:</span> <span id="dispName" class="font-semibold">-</span></div>
+                        <div><span class="text-gray-500">Email:</span> <span id="dispEmail" class="font-semibold">-</span></div>
+                        <div><span class="text-gray-500">Roll Number:</span> <span id="dispRoll" class="font-semibold">-</span></div>
+                        <div><span class="text-gray-500">Department:</span> <span id="dispDept" class="font-semibold">-</span></div>
+                        <div><span class="text-gray-500">Batch:</span> <span id="dispBatch" class="font-semibold">-</span></div>
+                        <div><span class="text-gray-500">CGPA:</span> <span id="dispCgpa" class="font-semibold">-</span></div>
+                        <div><span class="text-gray-500">Phone:</span> <span id="dispPhone" class="font-semibold">-</span></div>
+                        <div><span class="text-gray-500">Address:</span> <span id="dispAddress" class="font-semibold">-</span></div>
+                    </div>
+                </div>
+
+                <form id="personalForm" class="hidden space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Roll Number</label>
+                            <input type="text" id="rollNumber" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Department</label>
+                            <select id="department" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                <option value="CSE">CSE</option>
+                                <option value="IT">IT</option>
+                                <option value="ECE">ECE</option>
+                                <option value="EEE">EEE</option>
+                                <option value="MECH">MECH</option>
+                                <option value="CIVIL">CIVIL</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Batch</label>
+                            <input type="number" id="batch" min="2020" max="2030" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">CGPA</label>
+                            <input type="number" id="cgpa" min="0" max="10" step="0.01" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Phone</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Address</label>
+                            <input type="text" id="address" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Save</button>
+                        <button type="button" onclick="cancelEdit('personal')" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Skills</h2>
+                    <button onclick="toggleEdit('skills')" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                        <i class="fas fa-edit mr-2"></i>Edit
+                    </button>
+                </div>
+
+                <div id="skillsDisplay" class="flex flex-wrap gap-2"></div>
+                
+                <div id="skillsForm" class="hidden">
+                    <div class="flex gap-2 mb-4">
+                        <input type="text" id="skillInput" placeholder="Add a skill" class="flex-1 px-4 py-2 border rounded-lg">
+                        <button type="button" onclick="addSkill()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">Add</button>
+                    </div>
+                    <div id="skillsList" class="flex flex-wrap gap-2 mb-4"></div>
+                    <button onclick="saveSkills()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg">Save</button>
+                    <button onclick="cancelEdit('skills')" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg ml-2">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Resume Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Resume</h2>
+                <div id="resumeSection">
+                    <p id="noResume" class="text-gray-500 mb-4">No resume uploaded yet</p>
+                    <div id="hasResume" class="hidden mb-4">
+                        <a id="resumeLink" href="#" target="_blank" class="text-indigo-600 hover:underline">
+                            <i class="fas fa-file-pdf mr-2"></i><span id="resumeName">resume.pdf</span>
+                        </a>
+                    </div>
+                    <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" class="hidden">
+                    <button onclick="document.getElementById('resumeUpload').click()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                        <i class="fas fa-upload mr-2"></i>Upload Resume
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let currentProfile = null;
+        let skills = [];
+
+        document.addEventListener('DOMContentLoaded', loadProfile);
+
+        async function loadProfile() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    currentProfile = data.data.user || data.data;
+                    displayProfile(currentProfile);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function displayProfile(profile) {
+            const student = profile.studentProfile || {};
+            const userName = profile.name || 'Student';
+            
+            // Sidebar
+            const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+            document.getElementById('userInitials').textContent = initials;
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('userEmail').textContent = profile.email || '';
+
+            // Personal info display
+            document.getElementById('dispName').textContent = profile.name;
+            document.getElementById('dispEmail').textContent = profile.email;
+            document.getElementById('dispRoll').textContent = student.rollNumber || '-';
+            document.getElementById('dispDept').textContent = student.department || '-';
+            document.getElementById('dispBatch').textContent = student.batch || '-';
+            document.getElementById('dispCgpa').textContent = student.cgpa || '-';
+            document.getElementById('dispPhone').textContent = student.phone || '-';
+            document.getElementById('dispAddress').textContent = student.address || '-';
+
+            // Form values
+            document.getElementById('rollNumber').value = student.rollNumber || '';
+            document.getElementById('department').value = student.department || 'CSE';
+            document.getElementById('batch').value = student.batch || '';
+            document.getElementById('cgpa').value = student.cgpa || '';
+            document.getElementById('phone').value = student.phone || '';
+            document.getElementById('address').value = student.address || '';
+
+            // Skills
+            skills = student.skills || [];
+            displaySkills();
+
+            // Resume
+            if (student.resumeUrl) {
+                document.getElementById('noResume').classList.add('hidden');
+                document.getElementById('hasResume').classList.remove('hidden');
+                document.getElementById('resumeLink').href = student.resumeUrl;
+                document.getElementById('resumeName').textContent = student.resumeFileName || 'resume.pdf';
+            }
+        }
+
+        function displaySkills() {
+            const container = document.getElementById('skillsDisplay');
+            container.innerHTML = skills.length ? skills.map(s => `<span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">${s}</span>`).join('') : '<p class="text-gray-500">No skills added</p>';
+        }
+
+        function toggleEdit(section) {
+            if (section === 'personal') {
+                document.getElementById('personalDisplay').classList.add('hidden');
+                document.getElementById('personalForm').classList.remove('hidden');
+            } else if (section === 'skills') {
+                document.getElementById('skillsDisplay').classList.add('hidden');
+                document.getElementById('skillsForm').classList.remove('hidden');
+                updateSkillsList();
+            }
+        }
+
+        function cancelEdit(section) {
+            if (section === 'personal') {
+                document.getElementById('personalDisplay').classList.remove('hidden');
+                document.getElementById('personalForm').classList.add('hidden');
+            } else if (section === 'skills') {
+                document.getElementById('skillsDisplay').classList.remove('hidden');
+                document.getElementById('skillsForm').classList.add('hidden');
+                skills = currentProfile.studentProfile?.skills || [];
+            }
+        }
+
+        document.getElementById('personalForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const updatedData = {
+                studentProfile: {
+                    rollNumber: document.getElementById('rollNumber').value,
+                    department: document.getElementById('department').value,
+                    batch: parseInt(document.getElementById('batch').value),
+                    cgpa: parseFloat(document.getElementById('cgpa').value),
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value
+                }
+            };
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(updatedData)
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showToast('Profile updated!', 'success');
+                    currentProfile = data.data;
+                    displayProfile(currentProfile);
+                    cancelEdit('personal');
+                }
+            } catch (error) {
+                showToast('Error updating profile', 'error');
+            }
+        });
+
+        function addSkill() {
+            const input = document.getElementById('skillInput');
+            if (input.value.trim() && !skills.includes(input.value.trim())) {
+                skills.push(input.value.trim());
+                updateSkillsList();
+                input.value = '';
+            }
+        }
+
+        function removeSkill(skill) {
+            skills = skills.filter(s => s !== skill);
+            updateSkillsList();
+        }
+
+        function updateSkillsList() {
+            const container = document.getElementById('skillsList');
+            container.innerHTML = skills.map(s => `<span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">${s} <span onclick="removeSkill('${s}')" class="cursor-pointer ml-1">×</span></span>`).join('');
+        }
+
+        async function saveSkills() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ studentProfile: { skills } })
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showToast('Skills updated!', 'success');
+                    currentProfile = data.data;
+                    displayProfile(currentProfile);
+                    cancelEdit('skills');
+                }
+            } catch (error) {
+                showToast('Error updating skills', 'error');
+            }
+        }
+
+        // Resume upload handler
+        document.getElementById('resumeUpload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (!allowedTypes.includes(file.type)) {
+                showToast('Please upload a PDF or Word document', 'error');
+                e.target.value = '';
+                return;
+            }
+
+            // Validate file size (2MB limit)
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('File size must be less than 2MB', 'error');
+                e.target.value = '';
+                return;
+            }
+
+            // Upload resume
+            const formData = new FormData();
+            formData.append('resume', file);
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_URL}/users/upload-resume`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showToast('Resume uploaded successfully!', 'success');
+                    // Reload profile to show updated resume
+                    await loadProfile();
+                } else {
+                    showToast(data.message || 'Failed to upload resume', 'error');
+                }
+            } catch (error) {
+                console.error('Resume upload error:', error);
+                showToast('Error uploading resume', 'error');
+            }
+
+            // Reset file input
+            e.target.value = '';
+        });
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '../login.html';
+        }
+
+        function showToast(message, type = 'error') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
