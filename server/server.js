@@ -110,6 +110,23 @@ app.use('/api/forum', forumRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/notifications', notificationRoutes);
 
+// API root endpoint
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'Prodigy Hire API',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/auth/login | /api/auth/register',
+      users: '/api/users/profile',
+      jobs: '/api/jobs',
+      applications: '/api/applications',
+      tests: '/api/aptitude/available',
+      health: '/api/health'
+    }
+  });
+});
+
 // Root endpoint
 app.get('/', (req, res) => {
   res.status(200).json({
