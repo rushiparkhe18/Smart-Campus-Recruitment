@@ -1,5 +1,5 @@
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'https://smart-campus-recruitment.onrender.com' 
+    ? 'http://localhost:5000/api' 
     : 'https://prodigy-hire-backend.onrender.com/api';
 
 // Get auth token
