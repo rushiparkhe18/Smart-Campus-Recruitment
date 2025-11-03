@@ -110,6 +110,24 @@ app.use('/api/forum', forumRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/notifications', notificationRoutes);
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    message: '🎓 Prodigy Hire - Smart Campus Recruitment Platform API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      users: '/api/users',
+      jobs: '/api/jobs',
+      applications: '/api/applications',
+      tests: '/api/aptitude',
+      documentation: 'https://github.com/rushiparkhe18/Smart-Campus-Recruitment'
+    }
+  });
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.status(200).json({
