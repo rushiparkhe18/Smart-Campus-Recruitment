@@ -133,13 +133,21 @@ app.use(errorHandler);
 // Database connection
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+    const mongoURI = process.env.MONGODB_URI || process.env.DB_URI;
+    
+    if (!mongoURI) {
+      throw new Error('MongoDB URI is not defined in environment variables');
+    }
+    
+    console.log('🔄 Connecting to MongoDB...');
+    const conn = await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    console.error('Stack:', error.stack);
     process.exit(1);
   }
 };
@@ -148,12 +156,22 @@ const connectDB = async () => {
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
-  await connectDB();
-  
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-    console.log(`📡 API available at http://localhost:${PORT}/api`);
-  });
+  try {
+    console.log('🚀 Starting server...');
+    console.log('📦 Environment:', process.env.NODE_ENV || 'development');
+    console.log('🔧 Port:', PORT);
+    
+    await connectDB();
+    
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+      console.log(`📡 API available at http://localhost:${PORT}/api`);
+      console.log(`✅ Server is ready to accept connections`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
 };
 
 // Handle unhandled promise rejections
