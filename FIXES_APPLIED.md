@@ -5,7 +5,7 @@
 ### 1. ❌ Rate Limiting Error (429 Too Many Requests)
 **Error:**
 ```
-POST http://localhost:5000/api/auth/login 429 (Too Many Requests)
+POST https://smart-campus-recruitment.onrender.com/auth/login 429 (Too Many Requests)
 SyntaxError: Unexpected token 'T', "Too many a"... is not valid JSON
 ```
 
@@ -80,7 +80,7 @@ This automatically approves ALL pending companies.
 ### Option 3: Using Admin API (PROFESSIONAL)
 ```bash
 # First login as admin, then:
-PATCH http://localhost:5000/api/admin/users/{companyUserId}/approve
+PATCH https://smart-campus-recruitment.onrender.com/admin/users/{companyUserId}/approve
 Authorization: Bearer {admin_access_token}
 ```
 

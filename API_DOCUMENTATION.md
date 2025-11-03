@@ -1,6 +1,6 @@
 # 📚 API Documentation - CampusHire
 
-Base URL: `http://localhost:5000/api`
+Base URL: `https://smart-campus-recruitment.onrender.com`
 
 Production URL: `https://your-backend-url.com/api`
 
@@ -632,17 +632,17 @@ Authorization: Bearer <token>
 
 ```bash
 # Register
-curl -X POST http://localhost:5000/api/auth/register \
+curl -X POST https://smart-campus-recruitment.onrender.com/auth/register \
   -H "Content-Type: application/json" \
   -d '{"name":"Test User","email":"test@example.com","password":"Test@123","role":"student"}'
 
 # Login
-curl -X POST http://localhost:5000/api/auth/login \
+curl -X POST https://smart-campus-recruitment.onrender.com/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"Test@123"}'
 
 # Get Jobs (with token)
-curl -X GET "http://localhost:5000/api/jobs?page=1&limit=10" \
+curl -X GET "https://smart-campus-recruitment.onrender.com/jobs?page=1&limit=10" \
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
 

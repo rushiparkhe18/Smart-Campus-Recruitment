@@ -185,7 +185,7 @@ GET    /api/jobs/:id/applicants           (Company: Job applicants)
 2. **Frontend (Netlify)**:
    ```bash
    # Update API_URL in all HTML files
-   # Replace: http://localhost:5000/api
+   # Replace: https://smart-campus-recruitment.onrender.com
    # With: https://your-app.up.railway.app/api
    
    git push  # If using GitHub integration

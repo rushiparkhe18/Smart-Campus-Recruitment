@@ -94,7 +94,7 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
    Find:
    ```javascript
-   const API_URL = 'http://localhost:5000/api';
+   const API_URL = 'https://smart-campus-recruitment.onrender.com';
    ```
 
    Replace with:

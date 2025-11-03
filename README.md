@@ -318,12 +318,12 @@ Test API endpoints using:
 Example:
 ```bash
 # Register
-curl -X POST http://localhost:5000/api/auth/register \
+curl -X POST https://smart-campus-recruitment.onrender.com/auth/register \
   -H "Content-Type: application/json" \
   -d '{"name":"John Doe","email":"john@example.com","password":"Pass@1234","role":"student"}'
 
 # Login
-curl -X POST http://localhost:5000/api/auth/login \
+curl -X POST https://smart-campus-recruitment.onrender.com/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"john@example.com","password":"Pass@1234"}'
 ```
@@ -369,5 +369,6 @@ For support, email support@campushire.com or join our Slack channel.
 ---
 
 **Built with ❤️ for students and recruiters**
-#   S m a r t - C a m p u s - R e c r u i t m e n t  
+#   S m a r t - C a m p u s - R e c r u i t m e n t 
+ 
  

@@ -46,7 +46,7 @@ Wait for: `✅ MongoDB Connected` and `🚀 Server running on port 5000`
 - **Landing Page**: http://127.0.0.1:5500/client/index.html
 - **Login**: http://127.0.0.1:5500/client/login.html
 - **Register**: http://127.0.0.1:5500/client/register.html
-- **API**: http://localhost:5000/api
+- **API**: https://smart-campus-recruitment.onrender.com
 
 ---
 

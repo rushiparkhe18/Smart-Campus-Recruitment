@@ -189,7 +189,7 @@ server/
 ## Development vs Production
 
 ### Development (Current):
-- **API**: `http://localhost:5000/api`
+- **API**: `https://smart-campus-recruitment.onrender.com`
 - **Frontend**: Live Server on `http://127.0.0.1:5500`
 - **Database**: MongoDB Atlas (same for dev/prod)
 - **Rate Limit**: 100 requests per 15 minutes
@@ -298,7 +298,7 @@ npm run dev
 - **Landing**: http://127.0.0.1:5500/client/index.html
 - **Login**: http://127.0.0.1:5500/client/login.html
 - **Register**: http://127.0.0.1:5500/client/register.html
-- **API**: http://localhost:5000/api
+- **API**: https://smart-campus-recruitment.onrender.com
 
 ### Test Accounts (Create via register page):
 - Student: Any email with student role

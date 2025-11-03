@@ -54,13 +54,13 @@
 
 **Get all pending companies:**
 ```bash
-GET http://localhost:5000/api/admin/users?role=company&isApproved=false
+GET https://smart-campus-recruitment.onrender.com/admin/users?role=company&isApproved=false
 Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN
 ```
 
 **Approve a company:**
 ```bash
-PATCH http://localhost:5000/api/admin/users/{userId}/approve
+PATCH https://smart-campus-recruitment.onrender.com/admin/users/{userId}/approve
 Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN
 ```
 

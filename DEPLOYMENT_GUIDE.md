@@ -197,7 +197,7 @@ In `client/js/app.js`:
 
 ```javascript
 // Replace
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://smart-campus-recruitment.onrender.com';
 
 // With
 const API_URL = 'https://campushire-backend.onrender.com/api';
